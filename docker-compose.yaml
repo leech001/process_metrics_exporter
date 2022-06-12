@@ -6,4 +6,4 @@ services:
       context: .
     ports:
       - "8080:8080"
-    command: sh -c "./procheck 1 8080 init main dfgfrhrh"
+    command: sh -c "./procheck -update 1 -port 8080 test1 test2 test3"

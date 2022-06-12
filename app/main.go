@@ -1,7 +1,8 @@
 package main
 
 import (
-	"log"
+	"flag"
+	"fmt"
 	"net/http"
 	"os"
 	"os/exec"
@@ -15,15 +16,21 @@ import (
 )
 
 func main() {
-	metricUpdatePeriod, _ := strconv.ParseInt(os.Args[1], 10, 64)
-	metricPort := os.Args[2]
+	metricUpdatePeriod := flag.Int64("update", 0, "Update metrics period")
+	metricPort := flag.String("port", "0", "Metrics port")
+	flag.Parse()
 
-	for _, pName := range os.Args[3:] {
-		go setMetric(metricUpdatePeriod, pName, regMetric(pName))
+	if *metricUpdatePeriod == 0 || *metricPort == "0" {
+		fmt.Println("ERROR! Added run params -update and -port")
+		return
+	}
+
+	for _, pName := range os.Args[5:] {
+		go setMetric(*metricUpdatePeriod, pName, regMetric(pName))
 	}
 
 	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe(":"+metricPort, nil)
+	http.ListenAndServe(":"+*metricPort, nil)
 }
 
 func regMetric(pName string) prometheus.Gauge {
@@ -44,6 +51,5 @@ func setMetric(updateTime int64, pName string, metric prometheus.Gauge) {
 		metricFloat, _ := strconv.ParseFloat(string(metricStr), 64)
 		metric.Set(metricFloat)
 		time.Sleep(time.Duration(updateTime) * time.Second)
-		log.Println(metricFloat)
 	}
 }
