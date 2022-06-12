@@ -8,4 +8,4 @@ FROM alpine:latest
 RUN apk add --no-cache bash
 WORKDIR /app
 COPY --from=builder /build/procheck .
-CMD sh -c "./procheck -update 5 -port 8080 test1 test2 test3"
+# CMD sh -c "./procheck -update 5 -port 8080 test1 test2 test3"
