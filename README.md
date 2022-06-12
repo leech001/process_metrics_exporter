@@ -18,7 +18,7 @@ where:
 
 - "-port 8080" - port where metrics are fed;
 
-- "test11...3" - names of processes.
+- "test1...3" - names of processes.
 
 
 ## Work with Docker (Alpine Linux images)
