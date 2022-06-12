@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -37,11 +38,12 @@ func regMetric(pName string) prometheus.Gauge {
 
 func setMetric(updateTime int64, pName string, metric prometheus.Gauge) {
 	for {
-		proc := "ps cax | grep " + pName + "| wc -l"
+		proc := "ps cax | grep " + pName + "|grep -v -e 'grep'| grep -v -e '" + os.Args[0] + "'|wc -l"
 		result, _ := exec.Command("bash", "-c", proc).Output()
 		metricStr := strings.ReplaceAll(strings.ReplaceAll(string(result), " ", ""), "\n", "")
 		metricFloat, _ := strconv.ParseFloat(string(metricStr), 64)
 		metric.Set(metricFloat)
 		time.Sleep(time.Duration(updateTime) * time.Second)
+		log.Println(metricFloat)
 	}
 }

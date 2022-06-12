@@ -4,3 +4,6 @@ services:
     restart: always
     build:
       context: .
+    ports:
+      - "8080:8080"
+    command: sh -c "./procheck 1 8080 init main dfgfrhrh"
