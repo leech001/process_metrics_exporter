@@ -1,4 +1,5 @@
 # Prometheus process metrics exporter
+[![GitHub](https://img.shields.io/badge/Git-Hub-purple.svg)](https://github.com/leech001/process_metrics_exporter) [![Docker](https://img.shields.io/badge/Docker-hub-2496ed.svg)](https://hub.docker.com/r/leech001/process-metrics-exporter) [![License: WTFPL](https://img.shields.io/badge/license-WTFPL-brightgreen)](https://github.com/leech001/process_metrics_exporter/blob/main/LICENSE)  
 
 ## GO application for counting the number of running processes and forming the corresponding metrics for Prometheus (Alpine Linux images)
 
