@@ -20,19 +20,23 @@ func main() {
 	metricPort := flag.String("port", "0", "Metrics port")
 	flag.Parse()
 
+	// Function to check the presence of mandatory application flags
 	if *metricUpdatePeriod == 0 || *metricPort == "0" {
 		fmt.Println("ERROR! Added run params -update and -port")
 		return
 	}
 
+	// Cycle to create metrics from application parameters
 	for _, pName := range os.Args[5:] {
 		go setMetric(*metricUpdatePeriod, pName, regMetric(pName))
 	}
 
+	// Running a web server to give back metrics
 	http.Handle("/metrics", promhttp.Handler())
 	http.ListenAndServe(":"+*metricPort, nil)
 }
 
+// Function to register the metric
 func regMetric(pName string) prometheus.Gauge {
 	metricName := pName + "_number_proccess"
 	return promauto.NewGauge(prometheus.GaugeOpts{
@@ -43,6 +47,7 @@ func regMetric(pName string) prometheus.Gauge {
 
 }
 
+// Function to register the metric
 func setMetric(updateTime int64, pName string, metric prometheus.Gauge) {
 	for {
 		proc := "ps cax | grep " + pName + "|grep -v -e 'grep'| grep -v -e '" + os.Args[0] + "'|wc -l"
