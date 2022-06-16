@@ -17,8 +17,14 @@ jobs:
       with:
         go-version: ^1.18
            
-    - name: Build
-      run: cd app && go get main && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o procheck
+    - name: Build linux 386
+      run: cd app && go get main && CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o procheck-linux-386
+    
+    - name: Build linux amd64
+      run: cd app && go get main && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o procheck-linux-amd64
+    
+    - name: Build linux arm
+      run: cd app && go get main && CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o procheck-linux-arm
        
     - name: Build release
       uses: "marvinpinto/action-automatic-releases@latest"
@@ -26,4 +32,6 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         files: |
-          app/procheck
+          app/procheck-linux-386
+          app/procheck-linux-amd64
+          app/procheck-linux-arm
