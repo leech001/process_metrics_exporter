@@ -42,7 +42,7 @@ func regMetric(pName string) prometheus.Gauge {
 	return promauto.NewGauge(prometheus.GaugeOpts{
 		Name:        metricName,
 		Help:        "Number of processes running",
-		ConstLabels: prometheus.Labels{"Proccess_name": pName},
+		ConstLabels: prometheus.Labels{"proccess_name": pName},
 	})
 
 }
@@ -50,7 +50,7 @@ func regMetric(pName string) prometheus.Gauge {
 // Function to register the metric
 func setMetric(updateTime int64, pName string, metric prometheus.Gauge) {
 	for {
-		proc := "ps cax | grep " + pName + "|grep -v -e 'grep'| grep -v -e '" + os.Args[0] + "'|wc -l"
+		proc := "ps waux | grep " + pName + "|grep -v -e 'grep'| grep -v -e '" + os.Args[0] + "'|wc -l"
 		result, _ := exec.Command("bash", "-c", proc).Output()
 		metricStr := strings.ReplaceAll(strings.ReplaceAll(string(result), " ", ""), "\n", "")
 		metricFloat, _ := strconv.ParseFloat(string(metricStr), 64)
