@@ -1,0 +1,9 @@
+[Unit]
+Description=Process metrics exporter
+
+[Service]
+User=root
+ExecStart=/usr/bin/procheck -update 10 -port 8080 test1 test2 test3
+
+[Install]
+WantedBy=multi-user.target 
