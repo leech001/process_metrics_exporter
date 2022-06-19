@@ -6,4 +6,4 @@ services:
       context: .
     ports:
       - "8080:8080"
-    command: sh -c "./procheck -update 1 -port 8080 test1 test2 test3"
+    command: bash -c "./procheck -update 1 -port 8080 test1 test2 test3"

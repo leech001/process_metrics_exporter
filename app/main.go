@@ -49,6 +49,7 @@ func updateMetric(updateTime int64, pName string) {
 		valueStr := strings.ReplaceAll(strings.ReplaceAll(string(result), " ", ""), "\n", "")
 		valueFloat, _ := strconv.ParseFloat(string(valueStr), 64)
 		metric.Set(valueFloat)
+
 		time.Sleep(time.Duration(updateTime) * time.Second)
 	}
 }
