@@ -1,8 +1,9 @@
 version: "3.9"
 services:
   app:
-    image: leech001/process-metrics-exporter
     restart: always
+    build:
+      context: .
     ports:
       - "8080:8080"
     command: bash -c "./procheck -update 1 -port 8080 test1 test2 test3"
