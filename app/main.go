@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -22,8 +22,7 @@ func main() {
 
 	// Function to check the presence of mandatory application flags
 	if *metricUpdatePeriod == 0 || *metricPort == "0" {
-		fmt.Println("ERROR! Added run params -update and -port")
-		return
+		log.Fatalln("ERROR! Added run params -update and -port")
 	}
 
 	// Cycle to create metrics from application parameters
